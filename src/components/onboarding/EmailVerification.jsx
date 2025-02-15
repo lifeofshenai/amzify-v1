@@ -1,64 +1,73 @@
-import React, { useState } from 'react';
-import { Mail, Lock, Loader2, AlertCircle } from 'lucide-react';
-import { useVendorStore } from '../../stores/vendorStore';
-// import { useOnboardingStore } from '../../stores/onboardingStore';
-import toast from 'react-hot-toast';
+import React, { useState } from "react";
+import { Mail, Lock, Loader2, AlertCircle } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 export default function EmailVerification({ email }) {
-  const [verificationCode, setVerificationCode] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [verificationCode, setVerificationCode] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
-  const { setOnboarded } = useVendorStore();
-  // const { completeStep } = useOnboardingStore();
+
+  const { currentStep, steps, vendorDetails } = useSelector(
+    (state) => state.auth
+  );
+  const completeStep = () => {};
+  
+  const setOnboarded = () => {};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
+      toast.error("Passwords do not match");
       return;
     }
 
     if (password.length < 8) {
-      toast.error('Password must be at least 8 characters long');
+      toast.error("Password must be at least 8 characters long");
       return;
     }
 
     if (!/\d/.test(password)) {
-      toast.error('Password must contain at least one number');
+      toast.error("Password must contain at least one number");
       return;
     }
 
     if (!/[A-Z]/.test(password)) {
-      toast.error('Password must contain at least one uppercase letter');
+      toast.error("Password must contain at least one uppercase letter");
       return;
     }
 
     if (!/[a-z]/.test(password)) {
-      toast.error('Password must contain at least one lowercase letter');
+      toast.error("Password must contain at least one lowercase letter");
       return;
     }
 
     if (!/[!@#$%^&*]/.test(password)) {
-      toast.error('Password must contain at least one special character (!@#$%^&*)');
+      toast.error(
+        "Password must contain at least one special character (!@#$%^&*)"
+      );
       return;
     }
 
     setIsVerifying(true);
     try {
       // Mock verification process
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      if (verificationCode !== '123456') { // Mock verification code
-        throw new Error('Invalid verification code');
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      if (verificationCode !== "123456") {
+        // Mock verification code
+        throw new Error("Invalid verification code");
       }
 
       // completeStep('email-verification');
       setOnboarded(true);
-      toast.success('Email verified successfully!');
+      toast.success("Email verified successfully!");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Failed to verify email');
+      toast.error(
+        error instanceof Error ? error.message : "Failed to verify email"
+      );
     } finally {
       setIsVerifying(false);
     }
@@ -67,17 +76,19 @@ export default function EmailVerification({ email }) {
   const handleResendCode = async () => {
     try {
       // Mock resend code process
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      toast.success('Verification code resent');
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      toast.success("Verification code resent");
     } catch (error) {
-      toast.error('Failed to resend verification code');
+      toast.error("Failed to resend verification code");
     }
   };
 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold text-gray-900">Verify Your Email</h2>
+        <h2 className="text-lg font-semibold text-gray-900">
+          Verify Your Email
+        </h2>
         <p className="mt-1 text-sm text-gray-500">
           We've sent a verification code to {email}
         </p>
@@ -169,7 +180,7 @@ export default function EmailVerification({ email }) {
               Verifying...
             </>
           ) : (
-            'Complete Setup'
+            "Complete Setup"
           )}
         </button>
       </form>

@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { Mail, Globe, AlertCircle, Loader2, Check } from 'lucide-react';
+import React, { useState } from "react";
+import { Mail, Globe, AlertCircle, Loader2, Check } from "lucide-react";
 // import { GoogleWorkspaceService } from '../../services/onboarding/googleWorkspaceService';
 // import { useOnboardingStore } from '../../stores/onboardingStore';
-import { useVendorStore } from '../../stores/vendorStore';
-import toast from 'react-hot-toast';
+import { useVendorStore } from "../../stores/vendorStore";
+import toast from "react-hot-toast";
 
 export default function EmailSetup({ domain, onComplete }) {
   const [isSettingUp, setIsSettingUp] = useState(false);
-  const [emailOption, setEmailOption] = useState<'workspace' | 'existing' | null>(null);
-  const [adminEmail, setAdminEmail] = useState('');
-  const [existingEmail, setExistingEmail] = useState('');
-  const [setupStep, setSetupStep] = useState<'initial' | 'verification' | 'complete'>('initial');
+  const [emailOption, setEmailOption] = useState(null);
+  const [adminEmail, setAdminEmail] = useState("");
+  const [existingEmail, setExistingEmail] = useState("");
+  const [setupStep, setSetupStep] = useState("initial");
   // const { vendorDetails } = useOnboardingStore();
   const { domainStatus } = useVendorStore();
   // const workspaceService = new GoogleWorkspaceService();
@@ -20,29 +20,23 @@ export default function EmailSetup({ domain, onComplete }) {
     //   toast.error('Please enter an admin email');
     //   return;
     // }
-
     // setIsSettingUp(true);
     // try {
     //   // Step 1: Initialize workspace setup
     //   const setup = await workspaceService.setupWorkspace(domain, adminEmail);
     //   setSetupStep('verification');
-
     //   // Step 2: Configure DNS records
     //   await workspaceService.configureMX(domain);
-
     //   // Step 3: Verify domain
     //   await workspaceService.verifyDomain(domain);
-
     //   // Step 4: Create admin user
     //   const user = await workspaceService.createUser(
     //     adminEmail,
     //     vendorDetails?.firstName || '',
     //     vendorDetails?.lastName || ''
     //   );
-
     //   setSetupStep('complete');
     //   toast.success('Google Workspace setup completed!');
-
     //   // Show temporary password to user
     //   toast((t) => (
     //     <div>
@@ -61,7 +55,6 @@ export default function EmailSetup({ domain, onComplete }) {
     //       </div>
     //     </div>
     //   ), { duration: 10000 });
-
     //   onComplete();
     // } catch (error) {
     //   toast.error('Failed to setup Google Workspace');
@@ -73,19 +66,19 @@ export default function EmailSetup({ domain, onComplete }) {
 
   const handleExistingEmail = () => {
     if (!existingEmail) {
-      toast.error('Please enter your email address');
+      toast.error("Please enter your email address");
       return;
     }
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(existingEmail)) {
-      toast.error('Please enter a valid email address');
+      toast.error("Please enter a valid email address");
       return;
     }
 
     // Validate email domain matches
-    const emailDomain = existingEmail.split('@')[1];
+    const emailDomain = existingEmail.split("@")[1];
     if (emailDomain !== domain) {
       toast.error(`Email must be from the domain ${domain}`);
       return;
@@ -97,24 +90,28 @@ export default function EmailSetup({ domain, onComplete }) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold text-gray-900">Setup Business Email</h2>
+        <h2 className="text-lg font-semibold text-gray-900">
+          Setup Business Email
+        </h2>
         <p className="mt-1 text-sm text-gray-500">
-          {domainStatus?.isNewPurchase 
-            ? 'Set up professional email for your new domain'
-            : 'Connect your existing email or set up a new one'}
+          {domainStatus?.isNewPurchase
+            ? "Set up professional email for your new domain"
+            : "Connect your existing email or set up a new one"}
         </p>
       </div>
 
-      {setupStep === 'initial' && (
+      {setupStep === "initial" && (
         <div className="space-y-4">
           {!emailOption && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <button
-                onClick={() => setEmailOption('workspace')}
+                onClick={() => setEmailOption("workspace")}
                 className="p-6 text-left border border-gray-200 rounded-lg hover:border-primary-200 hover:bg-primary-50 transition-colors"
               >
                 <h3 className="text-lg font-medium text-gray-900">
-                  {domainStatus?.isNewPurchase ? 'Setup Google Workspace' : 'Create New Email'}
+                  {domainStatus?.isNewPurchase
+                    ? "Setup Google Workspace"
+                    : "Create New Email"}
                 </h3>
                 <p className="mt-1 text-sm text-gray-500">
                   Professional email, calendar, and collaboration tools
@@ -123,10 +120,12 @@ export default function EmailSetup({ domain, onComplete }) {
 
               {!domainStatus?.isNewPurchase && (
                 <button
-                  onClick={() => setEmailOption('existing')}
+                  onClick={() => setEmailOption("existing")}
                   className="p-6 text-left border border-gray-200 rounded-lg hover:border-primary-200 hover:bg-primary-50 transition-colors"
                 >
-                  <h3 className="text-lg font-medium text-gray-900">Use Existing Email</h3>
+                  <h3 className="text-lg font-medium text-gray-900">
+                    Use Existing Email
+                  </h3>
                   <p className="mt-1 text-sm text-gray-500">
                     Connect your existing email address from this domain
                   </p>
@@ -135,7 +134,7 @@ export default function EmailSetup({ domain, onComplete }) {
             </div>
           )}
 
-          {emailOption === 'workspace' && (
+          {emailOption === "workspace" && (
             <div className="space-y-4">
               <button
                 onClick={() => setEmailOption(null)}
@@ -150,7 +149,9 @@ export default function EmailSetup({ domain, onComplete }) {
                     <Globe className="w-6 h-6 text-primary-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-medium text-gray-900">Google Workspace</h3>
+                    <h3 className="text-lg font-medium text-gray-900">
+                      Google Workspace
+                    </h3>
                     <p className="text-sm text-gray-500">
                       Professional email, calendar, and collaboration tools
                     </p>
@@ -164,8 +165,10 @@ export default function EmailSetup({ domain, onComplete }) {
                   <div className="mt-1 flex rounded-md shadow-sm">
                     <input
                       type="text"
-                      value={adminEmail.split('@')[0]}
-                      onChange={(e) => setAdminEmail(`${e.target.value}@${domain}`)}
+                      value={adminEmail.split("@")[0]}
+                      onChange={(e) =>
+                        setAdminEmail(`${e.target.value}@${domain}`)
+                      }
                       className="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-l-md border border-gray-300 focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                       placeholder="admin"
                     />
@@ -178,7 +181,7 @@ export default function EmailSetup({ domain, onComplete }) {
             </div>
           )}
 
-          {emailOption === 'existing' && (
+          {emailOption === "existing" && (
             <div className="space-y-4">
               <button
                 onClick={() => setEmailOption(null)}
@@ -205,7 +208,10 @@ export default function EmailSetup({ domain, onComplete }) {
               <div className="bg-blue-50 p-4 rounded-lg flex items-start space-x-3">
                 <AlertCircle className="w-5 h-5 text-blue-600 mt-0.5" />
                 <div className="text-sm text-blue-700">
-                  <p>Make sure to enter an email address from your domain {domain}</p>
+                  <p>
+                    Make sure to enter an email address from your domain{" "}
+                    {domain}
+                  </p>
                 </div>
               </div>
             </div>
@@ -213,14 +219,15 @@ export default function EmailSetup({ domain, onComplete }) {
         </div>
       )}
 
-      {setupStep === 'verification' && (
+      {setupStep === "verification" && (
         <div className="space-y-4">
           <div className="bg-blue-50 p-4 rounded-lg flex items-start space-x-3">
             <AlertCircle className="w-5 h-5 text-blue-600 mt-0.5" />
             <div className="text-sm text-blue-700">
               <p className="font-medium">Setting up Google Workspace</p>
               <p className="mt-1">
-                We're configuring your domain for Google Workspace. This may take a few minutes.
+                We're configuring your domain for Google Workspace. This may
+                take a few minutes.
               </p>
             </div>
           </div>
@@ -228,15 +235,21 @@ export default function EmailSetup({ domain, onComplete }) {
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
               <Check className="w-5 h-5 text-green-600" />
-              <span className="text-sm text-gray-700">Initializing workspace setup</span>
+              <span className="text-sm text-gray-700">
+                Initializing workspace setup
+              </span>
             </div>
             <div className="flex items-center space-x-3">
               <Check className="w-5 h-5 text-green-600" />
-              <span className="text-sm text-gray-700">Configuring DNS records</span>
+              <span className="text-sm text-gray-700">
+                Configuring DNS records
+              </span>
             </div>
             <div className="flex items-center space-x-3">
               <Loader2 className="w-5 h-5 animate-spin text-primary-600" />
-              <span className="text-sm text-gray-700">Verifying domain ownership</span>
+              <span className="text-sm text-gray-700">
+                Verifying domain ownership
+              </span>
             </div>
           </div>
         </div>
@@ -249,7 +262,7 @@ export default function EmailSetup({ domain, onComplete }) {
         >
           Skip for now
         </button>
-        {emailOption === 'workspace' && setupStep === 'initial' && (
+        {emailOption === "workspace" && setupStep === "initial" && (
           <button
             onClick={handleSetupWorkspace}
             disabled={!adminEmail || isSettingUp}
@@ -261,11 +274,11 @@ export default function EmailSetup({ domain, onComplete }) {
                 Setting up...
               </>
             ) : (
-              'Continue'
+              "Continue"
             )}
           </button>
         )}
-        {emailOption === 'existing' && (
+        {emailOption === "existing" && (
           <button
             onClick={handleExistingEmail}
             className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"

@@ -1,72 +1,89 @@
 import React, { useState } from "react";
-import { useOnboardingStore } from "../../stores/onboardingStore";
+import { useDispatch, useSelector } from "react-redux";
 import LogoUpload from "./LogoUpload";
 import NameGenerator from "./NameGenerator";
 import { AlertCircle, Wand2 } from "lucide-react";
 import toast from "react-hot-toast";
+import { SetState } from "../../redux/slices/auth";
 
 export default function CompanyDetailsForm() {
-  // const { vendorDetails, updateVendorDetails, completeStep, setCurrentStep } =
-  //   useOnboardingStore();
+  const dispatch = useDispatch();
+
+  const { vendorDetails } = useSelector((state) => state.auth);
+
   const [isIncorporated, setIsIncorporated] = useState();
   const [showNameGenerator, setShowNameGenerator] = useState(false);
 
+  const setCurrentStep = () => {};
+
+  const updateVendorDetails = () => {};
+
+  const completeStep = () => {};
+
+  const onNextStepClick = (step) => {
+    dispatch(
+      SetState({
+        field: "currentStep",
+        value: step,
+      })
+    );
+  };
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
     try {
-      // Validate required fields
-      if (
-        !vendorDetails?.firstName ||
-        !vendorDetails?.lastName ||
-        !vendorDetails?.companyName
-      ) {
-        toast.error("Please fill in all required fields");
-        return;
-      }
+      // // Validate required fields
+      // if (
+      //   !vendorDetails?.firstName ||
+      //   !vendorDetails?.lastName ||
+      //   !vendorDetails?.companyName
+      // ) {
+      //   toast.error("Please fill in all required fields");
+      //   return;
+      // }
 
-      // If incorporated, validate country-specific fields
-      if (isIncorporated) {
-        if (!vendorDetails?.countryOfIncorporation) {
-          toast.error("Please select your country of incorporation");
-          return;
-        }
+      // // If incorporated, validate country-specific fields
+      // if (isIncorporated) {
+      //   if (!vendorDetails?.countryOfIncorporation) {
+      //     toast.error("Please select your country of incorporation");
+      //     return;
+      //   }
 
-        if (vendorDetails?.countryOfIncorporation === "US") {
-          if (!vendorDetails?.ein) {
-            toast.error("EIN is required for US companies");
-            return;
-          }
-          // Basic EIN validation (9 digits)
-          const einRegex = /^\d{9}$/;
-          if (!einRegex.test(vendorDetails?.ein?.replace(/-/g, ""))) {
-            toast.error("Please enter a valid EIN (9 digits)");
-            return;
-          }
-        } else if (vendorDetails?.countryOfIncorporation === "ZA") {
-          if (!vendorDetails?.companyNumber) {
-            toast.error(
-              "Company registration number is required for South African companies"
-            );
-            return;
-          }
-          // Basic company number validation
-          if (vendorDetails?.companyNumber.length < 5) {
-            toast.error("Please enter a valid company registration number");
-            return;
-          }
-        }
-      }
+      //   if (vendorDetails?.countryOfIncorporation === "US") {
+      //     if (!vendorDetails?.ein) {
+      //       toast.error("EIN is required for US companies");
+      //       return;
+      //     }
+      //     // Basic EIN validation (9 digits)
+      //     const einRegex = /^\d{9}$/;
+      //     if (!einRegex.test(vendorDetails?.ein?.replace(/-/g, ""))) {
+      //       toast.error("Please enter a valid EIN (9 digits)");
+      //       return;
+      //     }
+      //   } else if (vendorDetails?.countryOfIncorporation === "ZA") {
+      //     if (!vendorDetails?.companyNumber) {
+      //       toast.error(
+      //         "Company registration number is required for South African companies"
+      //       );
+      //       return;
+      //     }
+      //     // Basic company number validation
+      //     if (vendorDetails?.companyNumber.length < 5) {
+      //       toast.error("Please enter a valid company registration number");
+      //       return;
+      //     }
+      //   }
+      // }
 
-      // Set currency based on country if incorporated
-      if (isIncorporated) {
-        // updateVendorDetails({
-        //   currency:
-        //     vendorDetails.countryOfIncorporation === "US" ? "USD" : "ZAR",
-        // });
-      }
+      // // Set currency based on country if incorporated
+      // if (isIncorporated) {
+      //   // updateVendorDetails({
+      //   //   currency:
+      //   //     vendorDetails.countryOfIncorporation === "US" ? "USD" : "ZAR",
+      //   // });
+      // }
 
       // completeStep("company-details");
-      // setCurrentStep(1); // Move to payment setup
+      onNextStepClick(1); // Move to payment setup
       toast.success("Company details saved successfully");
     } catch (error) {
       toast.error("Failed to save company details");
@@ -79,7 +96,7 @@ export default function CompanyDetailsForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <div className="space-y-6">
       <div>
         <h2 className="text-lg font-semibold text-gray-900">Company Details</h2>
         <p className="mt-1 text-sm text-gray-500">
@@ -193,9 +210,9 @@ export default function CompanyDetailsForm() {
               <select
                 value={vendorDetails.countryOfIncorporation || ""}
                 // onChange={(e) =>
-                  // updateVendorDetails({
-                  //   countryOfIncorporation: e.target.value,
-                  // })
+                // updateVendorDetails({
+                //   countryOfIncorporation: e.target.value,
+                // })
                 // }
                 className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 required
@@ -281,12 +298,12 @@ export default function CompanyDetailsForm() {
 
       <div className="pt-6">
         <button
-          type="submit"
+          onClick={handleSubmit}
           className="w-full px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
         >
           Save and Continue
         </button>
       </div>
-    </form>
+    </div>
   );
 }

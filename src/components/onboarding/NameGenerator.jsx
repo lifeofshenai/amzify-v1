@@ -8,7 +8,7 @@ export default function NameGenerator({ onSelect }) {
   const [keywords, setKeywords] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [isChecking, setIsChecking] = useState(null);
-  const [suggestions, setSuggestions] = useStat([]);
+  const [suggestions, setSuggestions] = useState([]);
   // const nameService = new NameGeneratorService();
 
   const handleGenerate = async () => {

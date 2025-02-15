@@ -1,10 +1,16 @@
-import React, { useState, useEffect } from 'react';
-// import { useOnboardingStore } from '../../stores/onboardingStore';
-import { CreditCard, Loader2, Lock } from 'lucide-react';
-import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { CreditCard, Loader2, Lock } from "lucide-react";
+import {
+  Elements,
+  CardElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 // import { PayPalButtons } from "@paypal/paypal-js";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
+import { SetState } from "../../redux/slices/auth";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -17,13 +23,13 @@ function StripeForm({ onComplete }) {
     e.preventDefault();
 
     if (!stripe || !elements) {
-      toast.error('Payment provider not initialized');
+      toast.error("Payment provider not initialized");
       return;
     }
 
     const cardElement = elements.getElement(CardElement);
     if (!cardElement) {
-      toast.error('Card element not found');
+      toast.error("Card element not found");
       return;
     }
 
@@ -31,7 +37,7 @@ function StripeForm({ onComplete }) {
 
     try {
       const { error, paymentMethod } = await stripe.createPaymentMethod({
-        type: 'card',
+        type: "card",
         card: cardElement,
       });
 
@@ -40,12 +46,16 @@ function StripeForm({ onComplete }) {
       }
 
       // In a real app, send paymentMethod.id to your server
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      toast.success('Payment method connected successfully');
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      toast.success("Payment method connected successfully");
       onComplete();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Failed to connect payment method');
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to connect payment method"
+      );
     } finally {
       setIsProcessing(false);
     }
@@ -65,14 +75,14 @@ function StripeForm({ onComplete }) {
             options={{
               style: {
                 base: {
-                  fontSize: '16px',
-                  color: '#424770',
-                  '::placeholder': {
-                    color: '#aab7c4',
+                  fontSize: "16px",
+                  color: "#424770",
+                  "::placeholder": {
+                    color: "#aab7c4",
                   },
                 },
                 invalid: {
-                  color: '#9e2146',
+                  color: "#9e2146",
                 },
               },
               hidePostalCode: true,
@@ -86,8 +96,8 @@ function StripeForm({ onComplete }) {
         <div className="text-sm text-blue-700">
           <p className="font-medium">Secure Payment Processing</p>
           <p className="mt-1">
-            Your card information is securely encrypted and stored by Stripe.
-            We never store your full card details on our servers.
+            Your card information is securely encrypted and stored by Stripe. We
+            never store your full card details on our servers.
           </p>
         </div>
       </div>
@@ -103,7 +113,7 @@ function StripeForm({ onComplete }) {
             Processing...
           </>
         ) : (
-          'Connect Card'
+          "Connect Card"
         )}
       </button>
     </form>
@@ -117,11 +127,11 @@ function PayPalForm({ onComplete }) {
     setIsProcessing(true);
     try {
       // Mock PayPal connection
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      toast.success('PayPal account connected successfully');
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      toast.success("PayPal account connected successfully");
       onComplete();
     } catch (error) {
-      toast.error('Failed to connect PayPal account');
+      toast.error("Failed to connect PayPal account");
     } finally {
       setIsProcessing(false);
     }
@@ -134,7 +144,8 @@ function PayPalForm({ onComplete }) {
         <div className="text-sm text-blue-700">
           <p className="font-medium">Connect with PayPal</p>
           <p className="mt-1">
-            Link your PayPal account to process payments and receive payouts securely.
+            Link your PayPal account to process payments and receive payouts
+            securely.
           </p>
         </div>
       </div>
@@ -150,7 +161,7 @@ function PayPalForm({ onComplete }) {
             Connecting...
           </>
         ) : (
-          'Connect with PayPal'
+          "Connect with PayPal"
         )}
       </button>
     </div>
@@ -158,6 +169,8 @@ function PayPalForm({ onComplete }) {
 }
 
 export default function PaymentSetup() {
+  const dispatch = useDispatch();
+
   const [paymentMethod, setPaymentMethod] = useState(null);
   // const { completeStep, setCurrentStep } = useOnboardingStore();
 
@@ -166,10 +179,21 @@ export default function PaymentSetup() {
     // setCurrentStep(2); // Move to domain setup
   };
 
+  const onNextStepClick = (step) => {
+    dispatch(
+      SetState({
+        field: "currentStep",
+        value: step,
+      })
+    );
+  };
+
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold text-gray-900">Connect Payment Method</h2>
+        <h2 className="text-lg font-semibold text-gray-900">
+          Connect Payment Method
+        </h2>
         <p className="mt-1 text-sm text-gray-500">
           Choose how you want to process payments and receive payouts.
         </p>
@@ -178,13 +202,15 @@ export default function PaymentSetup() {
       {!paymentMethod && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <button
-            onClick={() => setPaymentMethod('stripe')}
+            onClick={() => setPaymentMethod("stripe")}
             className="p-6 text-left border border-gray-200 rounded-lg hover:border-primary-200 hover:bg-primary-50 transition-colors"
           >
             <div className="flex items-center space-x-3">
               <CreditCard className="w-6 h-6 text-primary-600" />
               <div>
-                <h3 className="text-lg font-medium text-gray-900">Credit Card</h3>
+                <h3 className="text-lg font-medium text-gray-900">
+                  Credit Card
+                </h3>
                 <p className="text-sm text-gray-500">
                   Connect your credit or debit card via Stripe
                 </p>
@@ -193,11 +219,15 @@ export default function PaymentSetup() {
           </button>
 
           <button
-            onClick={() => setPaymentMethod('paypal')}
+            onClick={() => setPaymentMethod("paypal")}
             className="p-6 text-left border border-gray-200 rounded-lg hover:border-primary-200 hover:bg-primary-50 transition-colors"
           >
             <div className="flex items-center space-x-3">
-              <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg" alt="PayPal" className="w-8" />
+              <img
+                src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg"
+                alt="PayPal"
+                className="w-8"
+              />
               <div>
                 <h3 className="text-lg font-medium text-gray-900">PayPal</h3>
                 <p className="text-sm text-gray-500">
@@ -218,7 +248,7 @@ export default function PaymentSetup() {
             ← Back to payment options
           </button>
 
-          {paymentMethod === 'stripe' ? (
+          {paymentMethod === "stripe" ? (
             <Elements stripe={stripePromise}>
               <StripeForm onComplete={handleComplete} />
             </Elements>
@@ -230,10 +260,18 @@ export default function PaymentSetup() {
 
       <div className="pt-6 flex space-x-4">
         <button
-          // onClick={() => setCurrentStep(0)}
+          onClick={() => onNextStepClick(0)}
           className="flex-1 px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50"
         >
           Back
+        </button>
+      </div>
+      <div className="flex space-x-4">
+        <button
+          onClick={() => onNextStepClick(2)}
+          className="flex-1 px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50"
+        >
+          Skip for now
         </button>
       </div>
     </div>

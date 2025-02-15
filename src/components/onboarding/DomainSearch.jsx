@@ -7,7 +7,7 @@ export default function DomainSearch({ onDomainSelect, onExistingDomain }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [results, setResults] = useState([]);
-  const [domainOption, setDomainOption] = useState<'search' | 'existing' | null>(null);
+  const [domainOption, setDomainOption] = useState(null);
   const [existingDomain, setExistingDomain] = useState('');
 
   // const domainService = new GoDaddyService();
