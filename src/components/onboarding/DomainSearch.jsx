@@ -83,8 +83,9 @@ export default function DomainSearch({ onDomainSelect, onExistingDomain }) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <button
-          onClick={() => setDomainOption('search')}
-          className="p-6 text-left border border-gray-200 rounded-lg hover:border-primary-200 hover:bg-primary-50 transition-colors"
+          // onClick={() => setDomainOption('search')}
+          // className="p-6 text-left border border-gray-200 rounded-lg hover:border-primary-200 hover:bg-primary-50 transition-colors"
+          className="p-6 text-left border border-gray-300 rounded-lg text-gray-600 opacity-50 transition-colors cursor-not-allowed"
         >
           <h3 className="text-lg font-medium text-gray-900">Purchase New Domain</h3>
           <p className="mt-1 text-sm text-gray-500">

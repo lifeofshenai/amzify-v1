@@ -1,18 +1,23 @@
 import React, { useState } from "react";
 import { Mail, Globe, AlertCircle, Loader2, Check } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+
 // import { GoogleWorkspaceService } from '../../services/onboarding/googleWorkspaceService';
 // import { useOnboardingStore } from '../../stores/onboardingStore';
 import { useVendorStore } from "../../stores/vendorStore";
 import toast from "react-hot-toast";
 
 export default function EmailSetup({ domain, onComplete }) {
+  const { domainStatus, isSendEmailLoading } = useSelector(
+    (state) => state.auth
+  );
+
   const [isSettingUp, setIsSettingUp] = useState(false);
   const [emailOption, setEmailOption] = useState(null);
   const [adminEmail, setAdminEmail] = useState("");
   const [existingEmail, setExistingEmail] = useState("");
   const [setupStep, setSetupStep] = useState("initial");
   // const { vendorDetails } = useOnboardingStore();
-  const { domainStatus } = useVendorStore();
   // const workspaceService = new GoogleWorkspaceService();
 
   const handleSetupWorkspace = async () => {
@@ -84,7 +89,7 @@ export default function EmailSetup({ domain, onComplete }) {
       return;
     }
 
-    onComplete();
+    onComplete(existingEmail);
   };
 
   return (
@@ -105,8 +110,9 @@ export default function EmailSetup({ domain, onComplete }) {
           {!emailOption && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <button
-                onClick={() => setEmailOption("workspace")}
-                className="p-6 text-left border border-gray-200 rounded-lg hover:border-primary-200 hover:bg-primary-50 transition-colors"
+                // onClick={() => setEmailOption("workspace")}
+                // className="p-6 text-left border border-gray-200 rounded-lg hover:border-primary-200 hover:bg-primary-50 transition-colors"
+                className="p-6 text-left border border-gray-300 rounded-lg text-gray-600 opacity-50 transition-colors cursor-not-allowed"
               >
                 <h3 className="text-lg font-medium text-gray-900">
                   {domainStatus?.isNewPurchase
@@ -256,12 +262,12 @@ export default function EmailSetup({ domain, onComplete }) {
       )}
 
       <div className="pt-6 flex space-x-4">
-        <button
+        {/* <button
           onClick={onComplete}
           className="flex-1 px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50"
         >
           Skip for now
-        </button>
+        </button> */}
         {emailOption === "workspace" && setupStep === "initial" && (
           <button
             onClick={handleSetupWorkspace}
@@ -281,9 +287,16 @@ export default function EmailSetup({ domain, onComplete }) {
         {emailOption === "existing" && (
           <button
             onClick={handleExistingEmail}
-            className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+            className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 flex items-center justify-center"
           >
-            Continue
+            {isSendEmailLoading ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                Sending OTP...
+              </>
+            ) : (
+              "Continue"
+            )}
           </button>
         )}
       </div>

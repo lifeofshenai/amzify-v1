@@ -1,12 +1,12 @@
 import React from 'react';
 import { TrendingDown } from 'lucide-react';
-// import { useMetricsStore } from '../../stores/metricsStore';
+import { useMetricsStore } from '../../stores/metricsStore';
 
 export default function ExpenseBreakdown({ totalCogs }) {
-  // const { getTotal, expenses } = useMetricsStore();
-  // const { totalRevenue, totalCost, grossProfit, netProfit } = getTotal();
-  // const grossMargin = ((grossProfit / totalRevenue) * 100).toFixed(1);
-  // const netMargin = ((netProfit / totalRevenue) * 100).toFixed(1);
+  const { getTotal, expenses } = useMetricsStore();
+  const { totalRevenue, totalCost, grossProfit, netProfit } = getTotal();
+  const grossMargin = ((grossProfit / totalRevenue) * 100).toFixed(1);
+  const netMargin = ((netProfit / totalRevenue) * 100).toFixed(1);
 
   // All expenses combined
   const allExpenses = [

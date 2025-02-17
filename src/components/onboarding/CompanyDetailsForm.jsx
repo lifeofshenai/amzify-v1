@@ -9,16 +9,41 @@ import { SetState } from "../../redux/slices/auth";
 export default function CompanyDetailsForm() {
   const dispatch = useDispatch();
 
-  const { vendorDetails } = useSelector((state) => state.auth);
+  const { vendorDetails, steps } = useSelector((state) => state.auth);
 
   const [isIncorporated, setIsIncorporated] = useState();
   const [showNameGenerator, setShowNameGenerator] = useState(false);
 
-  const setCurrentStep = () => {};
+  const handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
 
-  const updateVendorDetails = () => {};
+    const newVendorDetails = { ...vendorDetails, [name]: value };
+    dispatch(
+      SetState({
+        field: "vendorDetails",
+        value: newVendorDetails,
+      })
+    );
+  };
 
-  const completeStep = () => {};
+  const onSelectChange = (name, value) => {
+    const newVendorDetails = {
+      ...vendorDetails,
+      [name]: value,
+      ein: "",
+      companyNumber: "",
+      taxNumber: "",
+      vatNumber: "",
+    };
+    dispatch(
+      SetState({
+        field: "vendorDetails",
+        value: newVendorDetails,
+      })
+    );
+  };
 
   const onNextStepClick = (step) => {
     dispatch(
@@ -29,60 +54,78 @@ export default function CompanyDetailsForm() {
     );
   };
 
+  const completeStep = (stepId) => {
+    const allSteps = steps.map((step) =>
+      step.id === stepId ? { ...step, completed: true } : step
+    );
+    dispatch(
+      SetState({
+        field: "steps",
+        value: allSteps,
+      })
+    );
+  };
+
   const handleSubmit = async (e) => {
     try {
-      // // Validate required fields
-      // if (
-      //   !vendorDetails?.firstName ||
-      //   !vendorDetails?.lastName ||
-      //   !vendorDetails?.companyName
-      // ) {
-      //   toast.error("Please fill in all required fields");
-      //   return;
-      // }
+      const {
+        firstName,
+        lastName,
+        companyName,
+        countryOfIncorporation,
+        ein,
+        companyNumber,
+      } = vendorDetails;
+      // Validate required fields
+      if (!firstName || !lastName || !companyName) {
+        toast.error("Please fill in all required fields");
+        return;
+      }
 
-      // // If incorporated, validate country-specific fields
-      // if (isIncorporated) {
-      //   if (!vendorDetails?.countryOfIncorporation) {
-      //     toast.error("Please select your country of incorporation");
-      //     return;
-      //   }
+      // If incorporated, validate country-specific fields
+      if (isIncorporated) {
+        if (!countryOfIncorporation) {
+          toast.error("Please select your country of incorporation");
+          return;
+        }
 
-      //   if (vendorDetails?.countryOfIncorporation === "US") {
-      //     if (!vendorDetails?.ein) {
-      //       toast.error("EIN is required for US companies");
-      //       return;
-      //     }
-      //     // Basic EIN validation (9 digits)
-      //     const einRegex = /^\d{9}$/;
-      //     if (!einRegex.test(vendorDetails?.ein?.replace(/-/g, ""))) {
-      //       toast.error("Please enter a valid EIN (9 digits)");
-      //       return;
-      //     }
-      //   } else if (vendorDetails?.countryOfIncorporation === "ZA") {
-      //     if (!vendorDetails?.companyNumber) {
-      //       toast.error(
-      //         "Company registration number is required for South African companies"
-      //       );
-      //       return;
-      //     }
-      //     // Basic company number validation
-      //     if (vendorDetails?.companyNumber.length < 5) {
-      //       toast.error("Please enter a valid company registration number");
-      //       return;
-      //     }
-      //   }
-      // }
+        if (countryOfIncorporation === "US") {
+          if (!ein) {
+            toast.error("EIN is required for US companies");
+            return;
+          }
+          // Basic EIN validation (9 digits)
+          const einRegex = /^\d{9}$/;
+          if (!einRegex.test(ein?.replace(/-/g, ""))) {
+            toast.error("Please enter a valid EIN (9 digits)");
+            return;
+          }
+        } else if (countryOfIncorporation === "ZA") {
+          if (!companyNumber) {
+            toast.error(
+              "Company registration number is required for South African companies"
+            );
+            return;
+          }
+          // Basic company number validation
+          if (companyNumber.length < 5) {
+            toast.error("Please enter a valid company registration number");
+            return;
+          }
+        }
+      }
 
-      // // Set currency based on country if incorporated
-      // if (isIncorporated) {
-      //   // updateVendorDetails({
-      //   //   currency:
-      //   //     vendorDetails.countryOfIncorporation === "US" ? "USD" : "ZAR",
-      //   // });
-      // }
-
-      // completeStep("company-details");
+      const newVendorDetails = {
+        ...vendorDetails,
+        currency: countryOfIncorporation === "US" ? "USD" : "ZAR",
+      };
+      dispatch(
+        SetState({
+          field: "vendorDetails",
+          value: newVendorDetails,
+        })
+      );
+      completeStep("company-details");
       onNextStepClick(1); // Move to payment setup
       toast.success("Company details saved successfully");
     } catch (error) {
@@ -111,8 +154,9 @@ export default function CompanyDetailsForm() {
           </label>
           <input
             type="text"
-            value={vendorDetails.firstName || ""}
-            // onChange={(e) => updateVendorDetails({ firstName: e.target.value })}
+            name="firstName"
+            value={vendorDetails.firstName}
+            onChange={handleInputChange}
             className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             required
           />
@@ -124,8 +168,9 @@ export default function CompanyDetailsForm() {
           </label>
           <input
             type="text"
-            value={vendorDetails.lastName || ""}
-            // onChange={(e) => updateVendorDetails({ lastName: e.target.value })}
+            name="lastName"
+            value={vendorDetails.lastName}
+            onChange={handleInputChange}
             className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             required
           />
@@ -138,8 +183,8 @@ export default function CompanyDetailsForm() {
             </label>
             <button
               type="button"
-              onClick={() => setShowNameGenerator(!showNameGenerator)}
-              className="text-sm text-primary-600 hover:text-primary-700 flex items-center"
+              // onClick={() => setShowNameGenerator(!showNameGenerator)} //disable for now
+              className="text-sm text-primary-600 hover:text-primary-700 flex items-center cursor-not-allowed"
             >
               <Wand2 className="w-4 h-4 mr-1" />
               {showNameGenerator
@@ -154,10 +199,9 @@ export default function CompanyDetailsForm() {
           ) : (
             <input
               type="text"
-              value={vendorDetails.companyName || ""}
-              // onChange={(e) =>
-              //   updateVendorDetails({ companyName: e.target.value })
-              // }
+              name="companyName"
+              value={vendorDetails.companyName}
+              onChange={handleInputChange}
               className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               required
             />
@@ -208,12 +252,11 @@ export default function CompanyDetailsForm() {
                 Country of Incorporation
               </label>
               <select
-                value={vendorDetails.countryOfIncorporation || ""}
-                // onChange={(e) =>
-                // updateVendorDetails({
-                //   countryOfIncorporation: e.target.value,
-                // })
-                // }
+                name="countryOfIncorporation"
+                value={vendorDetails.countryOfIncorporation}
+                onChange={(e) =>
+                  onSelectChange("countryOfIncorporation", e.target.value)
+                }
                 className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 required
               >
@@ -230,8 +273,9 @@ export default function CompanyDetailsForm() {
                 </label>
                 <input
                   type="text"
-                  value={vendorDetails.ein || ""}
-                  // onChange={(e) => updateVendorDetails({ ein: e.target.value })}
+                  name="ein"
+                  value={vendorDetails.ein}
+                  onChange={handleInputChange}
                   className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   placeholder="XX-XXXXXXX"
                   required
@@ -247,10 +291,9 @@ export default function CompanyDetailsForm() {
                   </label>
                   <input
                     type="text"
-                    value={vendorDetails.companyNumber || ""}
-                    // onChange={(e) =>
-                    //   updateVendorDetails({ companyNumber: e.target.value })
-                    // }
+                    name="companyNumber"
+                    value={vendorDetails.companyNumber}
+                    onChange={handleInputChange}
                     className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     required
                   />
@@ -262,10 +305,9 @@ export default function CompanyDetailsForm() {
                   </label>
                   <input
                     type="text"
-                    value={vendorDetails.taxNumber || ""}
-                    // onChange={(e) =>
-                    //   updateVendorDetails({ taxNumber: e.target.value })
-                    // }
+                    name="taxNumber"
+                    value={vendorDetails.taxNumber}
+                    onChange={handleInputChange}
                     className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   />
                 </div>
@@ -276,10 +318,9 @@ export default function CompanyDetailsForm() {
                   </label>
                   <input
                     type="text"
-                    value={vendorDetails.vatNumber || ""}
-                    // onChange={(e) =>
-                    //   updateVendorDetails({ vatNumber: e.target.value })
-                    // }
+                    name="vatNumber"
+                    value={vendorDetails.vatNumber}
+                    onChange={handleInputChange}
                     className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   />
                 </div>

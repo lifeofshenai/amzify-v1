@@ -2,19 +2,23 @@ import React, { useState } from "react";
 import { Mail, Lock, Loader2, AlertCircle } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+
+import {
+  SetState,
+  SendVerificationEmail,
+  Signup,
+} from "../../redux/slices/auth";
 
 export default function EmailVerification({ email }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { isLoading, vendorDetails } = useSelector((state) => state.auth);
+
   const [verificationCode, setVerificationCode] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isVerifying, setIsVerifying] = useState(false);
-
-  const { currentStep, steps, vendorDetails } = useSelector(
-    (state) => state.auth
-  );
-  const completeStep = () => {};
-  
-  const setOnboarded = () => {};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,37 +54,60 @@ export default function EmailVerification({ email }) {
       );
       return;
     }
-
-    setIsVerifying(true);
-    try {
-      // Mock verification process
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      if (verificationCode !== "123456") {
-        // Mock verification code
-        throw new Error("Invalid verification code");
-      }
-
-      // completeStep('email-verification');
-      setOnboarded(true);
+    const {
+      companyName,
+      companyNumber,
+      countryOfIncorporation,
+      currency,
+      domain,
+      ein,
+      email,
+      firstName,
+      lastName,
+      logoUrl,
+      taxNumber,
+      vatNumber,
+    } = vendorDetails;
+    dispatch(
+      Signup({
+        firstName,
+        lastName,
+        email,
+        code: verificationCode,
+        password,
+        company: {
+          companyName,
+          companyNumber,
+          countryOfIncorporation,
+          currency,
+          domain,
+          ein,
+          logoUrl,
+          taxNumber,
+          vatNumber,
+        },
+      })
+    ).then(() => {
       toast.success("Email verified successfully!");
-    } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "Failed to verify email"
-      );
-    } finally {
-      setIsVerifying(false);
-    }
+      navigate("/dashboard");
+    });
   };
 
-  const handleResendCode = async () => {
-    try {
-      // Mock resend code process
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      toast.success("Verification code resent");
-    } catch (error) {
-      toast.error("Failed to resend verification code");
-    }
+  const onNextStepClick = (step) => {
+    dispatch(
+      SetState({
+        field: "currentStep",
+        value: step,
+      })
+    );
+  };
+
+  const onResendEmail = () => {
+    const { email } = vendorDetails;
+    dispatch(SendVerificationEmail({ email })).then(() => {
+      toast.success("Verification Code resent!");
+      setVerificationCode("");
+    });
   };
 
   return (
@@ -90,7 +117,13 @@ export default function EmailVerification({ email }) {
           Verify Your Email
         </h2>
         <p className="mt-1 text-sm text-gray-500">
-          We've sent a verification code to {email}
+          We've sent a verification code to {email}{" "}
+          <span
+            onClick={() => onNextStepClick(2)}
+            className="mt-2 text-sm text-primary-600 hover:text-primary-700 cursor-pointer"
+          >
+            (Not your email?)
+          </span>
         </p>
       </div>
 
@@ -112,7 +145,7 @@ export default function EmailVerification({ email }) {
           </div>
           <button
             type="button"
-            onClick={handleResendCode}
+            onClick={onResendEmail}
             className="mt-2 text-sm text-primary-600 hover:text-primary-700"
           >
             Resend code
@@ -171,10 +204,10 @@ export default function EmailVerification({ email }) {
 
         <button
           type="submit"
-          disabled={isVerifying}
+          disabled={isLoading}
           className="w-full px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
         >
-          {isVerifying ? (
+          {isLoading ? (
             <>
               <Loader2 className="w-5 h-5 animate-spin mr-2" />
               Verifying...

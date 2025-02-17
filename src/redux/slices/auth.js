@@ -6,8 +6,20 @@ const initialState = {
   user: {},
   token: "",
   isLoading: false,
-  vendorDetails: {},
+  isSendEmailLoading: false,
+  vendorDetails: {
+    companyName: "",
+    companyNumber: "",
+    countryOfIncorporation: "",
+    ein: "",
+    firstName: "",
+    lastName: "",
+    taxNumber: "",
+    vatNumber: "",
+    logoUrl: "",
+  },
   currentStep: 0,
+  domainStatus: null,
   steps: [
     {
       id: "company-details",
@@ -107,6 +119,28 @@ const Signup = createAsyncThunk(
   }
 );
 
+const SendVerificationEmail = createAsyncThunk(
+  "auth/send-verification-email",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await axios.post("/auth/send-verification-email", data);
+      const response = await res.data;
+      return response;
+    } catch (error) {
+      toast.error(error.response?.data?.message, { theme: "colored" });
+      if (error.response && error.response.data) {
+        return rejectWithValue({
+          error: error.response.data,
+          status: error.response.status,
+        });
+      }
+      return rejectWithValue({
+        error: "Network Error",
+      });
+    }
+  }
+);
+
 const VerifyCode = createAsyncThunk(
   "auth/verify-code",
   async (data, { rejectWithValue }) => {
@@ -185,9 +219,19 @@ const adminAuthSlice = createSlice({
     builder.addCase(Signup.fulfilled, (state, action) => {
       state.isLoading = false;
       state.user = action.payload.user;
+      state.token = action.payload?.token?.token;
     });
     builder.addCase(Signup.rejected, (state, action) => {
       state.isLoading = false;
+    });
+    builder.addCase(SendVerificationEmail.pending, (state) => {
+      state.isSendEmailLoading = true;
+    });
+    builder.addCase(SendVerificationEmail.fulfilled, (state, action) => {
+      state.isSendEmailLoading = false;
+    });
+    builder.addCase(SendVerificationEmail.rejected, (state, action) => {
+      state.isSendEmailLoading = false;
     });
     builder.addCase(VerifyCode.pending, (state) => {
       state.isLoading = true;
@@ -230,6 +274,7 @@ export {
   Logout,
   Signin,
   Signup,
+  SendVerificationEmail,
   VerifyCode,
   ForgetPassword,
   ResetPassword,

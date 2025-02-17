@@ -5,10 +5,10 @@ import StatCard from '../components/dashboard/StatCard';
 import ExpenseBreakdown from '../components/dashboard/ExpenseBreakdown';
 import RevenueBreakdown from '../components/dashboard/RevenueBreakdown';
 import SalesGraph from '../components/dashboard/SalesGraph';
-// import { useMetricsStore } from '../stores/metricsStore';
+import { useMetricsStore } from '../stores/metricsStore';
 
 export default function Dashboard() {
-  // const { revenue, expenses, totalCogs, getTotal } = useMetricsStore();
+  const { revenue, expenses, totalCogs, getTotal } = useMetricsStore();
   const { totalRevenue, totalExpenses, totalCost } = getTotal();
 
   const stats = [

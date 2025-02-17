@@ -3,52 +3,76 @@ import { useDispatch, useSelector } from "react-redux";
 import DomainSearch from "./DomainSearch";
 import EmailSetup from "./EmailSetup";
 import { Globe, Mail } from "lucide-react";
-import { SetState } from "../../redux/slices/auth";
+import toast from "react-hot-toast";
+import { SetState, SendVerificationEmail } from "../../redux/slices/auth";
 
 export default function DomainEmailSetup() {
   const dispatch = useDispatch();
 
   const [step, setStep] = useState("domain");
 
-  const { domainStatus } = useSelector((state) => state.auth);
-
-  const setCurrentStep = () => {};
-
-  const setDomainStatus = () => {};
-
-  const completeStep = () => {};
+  const { domainStatus, vendorDetails, steps } = useSelector(
+    (state) => state.auth
+  );
 
   const handleDomainSelect = async (domain, price) => {
-    setDomainStatus({
-      domain,
-      available: true,
-      price,
-      isNewPurchase: true,
-    });
-    setStep("email");
+    // setDomainStatus({
+    //   domain,
+    //   available: true,
+    //   price,
+    //   isNewPurchase: true,
+    // });
+    // setStep("email");
   };
 
   const handleExistingDomain = (domain) => {
-    setDomainStatus({
-      domain,
-      available: false,
-      isNewPurchase: false,
-    });
+    dispatch(
+      SetState({
+        field: "domainStatus",
+        value: {
+          domain,
+          available: false,
+          isNewPurchase: false,
+        },
+      })
+    );
     setStep("email");
   };
 
-  const handleEmailComplete = () => {
-    // completeStep('domain-email');
-    // setCurrentStep(3); // Move to email verification step
-  };
-
-  const onNextStepClick = (step) => {
+  const completeStep = (stepId) => {
+    const allSteps = steps.map((step) =>
+      step.id === stepId ? { ...step, completed: true } : step
+    );
     dispatch(
       SetState({
-        field: "currentStep",
-        value: step,
+        field: "steps",
+        value: allSteps,
       })
     );
+  };
+
+  const handleEmailComplete = (email) => {
+    completeStep("domain-email");
+    const newVendorDetails = {
+      ...vendorDetails,
+      domain: domainStatus?.domain,
+      email,
+    };
+    dispatch(
+      SetState({
+        field: "vendorDetails",
+        value: newVendorDetails,
+      })
+    );
+    dispatch(SendVerificationEmail({ email })).then(() => {
+      toast.success("Verification Code sent to email!");
+      dispatch(
+        SetState({
+          field: "currentStep",
+          value: 3,
+        })
+      );
+    });
   };
 
   return (
@@ -113,14 +137,6 @@ export default function DomainEmailSetup() {
             Back
           </button>
         )}
-      </div>
-      <div className="flex space-x-4">
-        <button
-          onClick={() => onNextStepClick(3)}
-          className="flex-1 px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50"
-        >
-          Test NEXT
-        </button>
       </div>
     </div>
   );

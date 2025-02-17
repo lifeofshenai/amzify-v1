@@ -171,12 +171,26 @@ function PayPalForm({ onComplete }) {
 export default function PaymentSetup() {
   const dispatch = useDispatch();
 
+  const { steps } = useSelector((state) => state.auth);
+  
   const [paymentMethod, setPaymentMethod] = useState(null);
   // const { completeStep, setCurrentStep } = useOnboardingStore();
 
   const handleComplete = () => {
     // completeStep('payment-setup');
     // setCurrentStep(2); // Move to domain setup
+  };
+
+  const completeStep = (stepId) => {
+    const allSteps = steps.map((step) =>
+      step.id === stepId ? { ...step, completed: true } : step
+    );
+    dispatch(
+      SetState({
+        field: "steps",
+        value: allSteps,
+      })
+    );
   };
 
   const onNextStepClick = (step) => {
@@ -186,6 +200,7 @@ export default function PaymentSetup() {
         value: step,
       })
     );
+    completeStep("payment-setup");
   };
 
   return (
@@ -202,8 +217,9 @@ export default function PaymentSetup() {
       {!paymentMethod && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <button
-            onClick={() => setPaymentMethod("stripe")}
-            className="p-6 text-left border border-gray-200 rounded-lg hover:border-primary-200 hover:bg-primary-50 transition-colors"
+            // onClick={() => setPaymentMethod("stripe")}
+            // className="p-6 text-left border border-gray-200 rounded-lg hover:border-primary-200 hover:bg-primary-50 transition-colors"
+            className="p-6 text-left border border-gray-300 rounded-lg text-gray-600 opacity-50 transition-colors cursor-not-allowed"
           >
             <div className="flex items-center space-x-3">
               <CreditCard className="w-6 h-6 text-primary-600" />
@@ -219,8 +235,9 @@ export default function PaymentSetup() {
           </button>
 
           <button
-            onClick={() => setPaymentMethod("paypal")}
-            className="p-6 text-left border border-gray-200 rounded-lg hover:border-primary-200 hover:bg-primary-50 transition-colors"
+            // onClick={() => setPaymentMethod("paypal")}
+            // className="p-6 text-left border border-gray-200 rounded-lg hover:border-primary-200 hover:bg-primary-50 transition-colors"
+            className="p-6 text-left border border-gray-300 rounded-lg text-gray-600 opacity-50 transition-colors cursor-not-allowed"
           >
             <div className="flex items-center space-x-3">
               <img

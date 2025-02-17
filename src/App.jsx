@@ -1,24 +1,23 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
-import Layout from './components/layout/Layout';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import Dashboard from './pages/Dashboard';
-import Products from './pages/Products';
-import SalesChannels from './pages/SalesChannels';
-import Content from './pages/Content';
-import Accounting from './pages/Accounting';
-import Payroll from './pages/Payroll';
-import Payment from './pages/Payment';
-import Advertising from './pages/Advertising';
-import Onboarding from './pages/Onboarding';
-// import { useVendorStore } from './stores/vendorStore';
+import React from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Toaster } from "react-hot-toast";
+import Layout from "./components/layout/Layout";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Dashboard from "./pages/Dashboard";
+import Products from "./pages/Products";
+import SalesChannels from "./pages/SalesChannels";
+import Content from "./pages/Content";
+import Accounting from "./pages/Accounting";
+import Payroll from "./pages/Payroll";
+import Payment from "./pages/Payment";
+import Advertising from "./pages/Advertising";
+import Onboarding from "./pages/Onboarding";
 
 const App = () => {
-  // const { isOnboarded } = useVendorStore();
-  const isOnboarded = false;
+  const { user, token } = useSelector((state) => state.auth);
   return (
     <BrowserRouter>
       <Toaster position="top-right" />
@@ -32,7 +31,7 @@ const App = () => {
         <Route path="/onboarding/*" element={<Onboarding />} />
 
         {/* Protected routes - only accessible after onboarding */}
-        {isOnboarded ? (
+        {token ? (
           <Route path="/" element={<Layout />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="products" element={<Products />} />

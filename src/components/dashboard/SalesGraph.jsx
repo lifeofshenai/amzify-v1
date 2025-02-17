@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import { useMetricsStore } from '../../stores/metricsStore';
+import { useMetricsStore } from '../../stores/metricsStore';
 
 const generateMockData = (timeRange) => {
   const data = [];
@@ -60,7 +60,7 @@ const generateMockData = (timeRange) => {
 export default function SalesGraph() {
   const [timeRange, setTimeRange] = useState('YTD');
   const data = generateMockData(timeRange);
-  // const { getTotal } = useMetricsStore();
+  const { getTotal } = useMetricsStore();
   const { totalRevenue } = getTotal();
 
   const timeRanges = [
