@@ -6,7 +6,7 @@ import SalesChannelIcon from '../common/SalesChannelIcon';
 import toast from 'react-hot-toast';
 
 export default function IntegrationSetup() {
-  const [isConnecting, setIsConnecting] = useState<string | null>(null);
+  const [isConnecting, setIsConnecting] = useState(null);
   const [showSkipWarning, setShowSkipWarning] = useState(false);
   const { integrations, setIntegration, setOnboarded } = useVendorStore();
   // const { completeStep } = useOnboardingStore();

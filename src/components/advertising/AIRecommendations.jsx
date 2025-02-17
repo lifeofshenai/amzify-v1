@@ -12,7 +12,7 @@ export default function AIRecommendations({ channels }) {
     // Find best performing channel
     const bestChannel = Object.entries(channels).reduce(
       (best, [channel, metrics]) => {
-        if (!best || metrics.roas > best.metrics.roas) {
+        if (!best || metrics?.roas > best.metrics?.roas) {
           return { channel, metrics };
         }
         return best;
@@ -21,7 +21,7 @@ export default function AIRecommendations({ channels }) {
 
     if (bestChannel) {
       const currentAllocation =
-        (bestChannel.metrics.budget / totalBudget) * 100;
+        (bestChannel.metrics?.budget / totalBudget) * 100;
       if (currentAllocation < 60) {
         recommendations.push({
           title: "Increase Budget Allocation",

@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 
 export default function DomainSetup({ onComplete }) {
   const [isPurchasing, setIsPurchasing] = useState(false);
-  const [domainOption, setDomainOption] = useState<'search' | 'existing' | null>(null);
+  const [domainOption, setDomainOption] = useState(null);
   const [existingDomain, setExistingDomain] = useState('');
   // const { vendorDetails } = useOnboardingStore();
   const { setDomainStatus } = useVendorStore();

@@ -15,7 +15,6 @@ export default function Login() {
     email: "",
     password: "",
   });
-  console.log("🚀 ~ Login ~ signInObject:", signInObject)
 
   const handleInputChange = (event) => {
     const target = event.target;

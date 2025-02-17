@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 export function useProductSync() {
   const [isImporting, setIsImporting] = useState(false);
-  const [importError, setImportError] = useState<string | null>(null);
+  const [importError, setImportError] = useState(null);
 
   // const syncService = new ProductSyncService();
 

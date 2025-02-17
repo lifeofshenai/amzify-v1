@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 export function useAIStockPrediction() {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
 
   const getPrediction = async (params) => {
     setIsLoading(true);

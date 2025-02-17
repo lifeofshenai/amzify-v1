@@ -1,11 +1,11 @@
 import React from 'react';
 import { DollarSign, TrendingUp, FileText, PieChart } from 'lucide-react';
-// import { useMetricsStore } from '../stores/metricsStore';
+import { useMetricsStore } from '../stores/metricsStore';
 import RevenueBreakdown from '../components/dashboard/RevenueBreakdown';
 import ExpenseBreakdown from '../components/dashboard/ExpenseBreakdown';
 
 export default function Accounting() {
-  // const { revenue, expenses, totalCogs, getTotal } = useMetricsStore();
+  const { revenue, expenses, totalCogs, getTotal } = useMetricsStore();
   const { totalRevenue, totalExpenses, totalCost, grossProfit, netProfit } = getTotal();
 
   const financialMetrics = {

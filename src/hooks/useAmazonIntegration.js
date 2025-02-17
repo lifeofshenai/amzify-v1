@@ -5,7 +5,7 @@ import { marketplaceConfig } from '../config/marketplace';
 export function useAmazonIntegration() {
   const [isConnected, setIsConnected] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const validateConnection = async () => {
