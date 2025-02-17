@@ -184,7 +184,8 @@ export default function CompanyDetailsForm() {
             <button
               type="button"
               // onClick={() => setShowNameGenerator(!showNameGenerator)} //disable for now
-              className="text-sm text-primary-600 hover:text-primary-700 flex items-center cursor-not-allowed"
+              // className="text-sm text-primary-600 hover:text-primary-700 flex items-center cursor-not-allowed"
+              className="text-sm text-gray-600 flex items-center cursor-not-allowed"
             >
               <Wand2 className="w-4 h-4 mr-1" />
               {showNameGenerator

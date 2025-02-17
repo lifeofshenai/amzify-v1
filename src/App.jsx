@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { Toaster } from "react-hot-toast";
 import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
+import Auth from "./pages/AuthLayout";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
@@ -24,28 +25,28 @@ const App = () => {
       <Routes>
         {/* Public routes */}
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-
         {/* Onboarding route */}
         <Route path="/onboarding/*" element={<Onboarding />} />
 
+        <Route path={`/`} element={<Auth />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Route>
+
         {/* Protected routes - only accessible after onboarding */}
-        {token ? (
-          <Route path="/" element={<Layout />}>
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="products" element={<Products />} />
-            <Route path="sales-channels" element={<SalesChannels />} />
-            <Route path="advertising" element={<Advertising />} />
-            <Route path="content" element={<Content />} />
-            <Route path="support" element={<div>Support Page</div>} />
-            <Route path="accounting" element={<Accounting />} />
-            <Route path="payroll" element={<Payroll />} />
-            <Route path="payout" element={<Payment />} />
-          </Route>
-        ) : (
-          <Route path="/*" element={<Navigate to="/onboarding" replace />} />
-        )}
+
+        <Route path="/" element={<Layout />}>
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="products" element={<Products />} />
+          <Route path="sales-channels" element={<SalesChannels />} />
+          <Route path="advertising" element={<Advertising />} />
+          <Route path="content" element={<Content />} />
+          <Route path="support" element={<div>Support Page</div>} />
+          <Route path="accounting" element={<Accounting />} />
+          <Route path="payroll" element={<Payroll />} />
+          <Route path="payout" element={<Payment />} />
+        </Route>
+        <Route path="*" element={<Onboarding />} />
       </Routes>
     </BrowserRouter>
   );
