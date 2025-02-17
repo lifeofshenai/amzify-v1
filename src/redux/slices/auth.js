@@ -60,7 +60,6 @@ const Signin = createAsyncThunk(
       const response = await res.data;
       return response;
     } catch (error) {
-      toast.error(error.response?.data?.message, { theme: "colored" });
       if (error.response && error.response.data) {
         return rejectWithValue({
           error: error.response.data,
@@ -82,8 +81,6 @@ const ForgetPassword = createAsyncThunk(
       const response = await res.data;
       return response;
     } catch (error) {
-      console.log("🚀 ~ error.response?:", error.response);
-      toast.error(error.response?.data?.message, { theme: "colored" });
       if (error.response && error.response.data) {
         return rejectWithValue({
           error: error.response.data,
@@ -105,7 +102,6 @@ const Signup = createAsyncThunk(
       const response = await res.data;
       return response;
     } catch (error) {
-      toast.error(error.response?.data?.message, { theme: "colored" });
       if (error.response && error.response.data) {
         return rejectWithValue({
           error: error.response.data,
@@ -127,7 +123,6 @@ const SendVerificationEmail = createAsyncThunk(
       const response = await res.data;
       return response;
     } catch (error) {
-      toast.error(error.response?.data?.message, { theme: "colored" });
       if (error.response && error.response.data) {
         return rejectWithValue({
           error: error.response.data,
@@ -149,7 +144,6 @@ const VerifyCode = createAsyncThunk(
       const response = await res.data;
       return response;
     } catch (error) {
-      toast.error(error.response?.data?.message, { theme: "colored" });
       if (error.response && error.response.data) {
         return rejectWithValue({
           error: error.response.data,
@@ -175,7 +169,6 @@ const ResetPassword = createAsyncThunk(
       const response = await res.data;
       return response;
     } catch (error) {
-      toast.error(error.response?.data?.message, { theme: "colored" });
       if (error.response && error.response.data) {
         return rejectWithValue({
           error: error.response.data,
@@ -189,7 +182,7 @@ const ResetPassword = createAsyncThunk(
   }
 );
 
-const adminAuthSlice = createSlice({
+const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
@@ -267,7 +260,7 @@ const adminAuthSlice = createSlice({
   },
 });
 
-const { Logout, SetState } = adminAuthSlice.actions;
+const { Logout, SetState } = authSlice.actions;
 
 export {
   SetState,
@@ -280,4 +273,4 @@ export {
   ResetPassword,
 };
 
-export default adminAuthSlice.reducer;
+export default authSlice.reducer;

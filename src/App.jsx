@@ -6,6 +6,8 @@ import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
 import Auth from "./pages/AuthLayout";
 import Login from "./pages/Login";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Products from "./pages/Products";
@@ -30,6 +32,8 @@ const App = () => {
 
         <Route path={`/`} element={<Auth />}>
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/signup" element={<Signup />} />
         </Route>
 
