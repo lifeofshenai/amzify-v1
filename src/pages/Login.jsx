@@ -8,7 +8,6 @@ import { Signin } from "../redux/slices/auth";
 
 export default function Login() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { isLoading } = useSelector((state) => state.auth);
 
   const [signInObject, setSignInObject] = useState({
@@ -127,7 +126,7 @@ export default function Login() {
 
               <div className="text-sm">
                 <a
-                  href="#"
+                  href="/forgot-password"
                   className="font-medium text-primary-600 hover:text-primary-500"
                 >
                   Forgot your password?

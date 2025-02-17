@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 const Auth = () => {
   const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
-  console.log("🚀 ~ Auth ~ token:", token)
   useEffect(() => {
     if (token) {
       navigate("/dashboard");
