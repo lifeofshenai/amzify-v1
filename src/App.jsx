@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Toaster } from "react-hot-toast";
 import Layout from "./components/layout/Layout";
+import AdminLayout from "./components/layout/AdminLayout";
 import Home from "./pages/Home";
 import Auth from "./pages/AuthLayout";
 import Login from "./pages/Login";
@@ -11,6 +12,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Products from "./pages/Products";
+import Users from "./pages/Users";
 import SalesChannels from "./pages/SalesChannels";
 import Content from "./pages/Content";
 import Accounting from "./pages/Accounting";
@@ -49,6 +51,9 @@ const App = () => {
           <Route path="accounting" element={<Accounting />} />
           <Route path="payroll" element={<Payroll />} />
           <Route path="payout" element={<Payment />} />
+        </Route>
+        <Route path="/" element={<AdminLayout />}>
+          <Route path="users" element={<Users />} />
         </Route>
         <Route path="*" element={<Onboarding />} />
       </Routes>
