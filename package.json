@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "start": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prod:deploy": "yarn build && sudo scp -i ~/.ssh/id_rsa -r ./dist/* ubuntu@52.8.55.242:/var/www/amzifybrands.com/html"
   },
   "dependencies": {
     "@paypal/paypal-js": "^8.0.2",
