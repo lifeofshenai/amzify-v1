@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.auth-logo {
+  width: 150px;
+}
+
+.dash-logo {
+  width: 125px;
+}

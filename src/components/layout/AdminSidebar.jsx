@@ -15,6 +15,7 @@ import {
 import { useDispatch } from "react-redux";
 
 import { Logout } from "../../redux/slices/auth";
+import Logo from "../../assets/amzify-logo.png";
 
 const menuItems = [{ label: "Users", icon: "Package2", path: "/users" }];
 
@@ -40,9 +41,7 @@ export default function Sidebar() {
   return (
     <div className="w-64 h-screen bg-white border-r border-gray-200 fixed left-0 top-0">
       <div className="flex items-center justify-center h-16 border-b border-gray-200">
-        <h1 className="text-2xl font-bold font-logo text-primary-500">
-          AMZIFY
-        </h1>
+        <img className="dash-logo" src={Logo} />
       </div>
 
       <nav className="mt-6">

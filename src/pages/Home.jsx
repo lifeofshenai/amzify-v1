@@ -1,11 +1,12 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Logo from "../assets/amzify-logo.png";
 
 export default function Home() {
   const navigate = useNavigate();
 
   const handleGetStarted = () => {
-    navigate('/onboarding');
+    navigate("/onboarding");
   };
 
   return (
@@ -14,7 +15,7 @@ export default function Home() {
       <nav className="bg-white border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex justify-between items-center h-16">
-            <h1 className="text-2xl font-bold font-logo text-primary-500">AMZIFY</h1>
+            <img className="auth-logo" src={Logo} />
             <div className="flex items-center space-x-4">
               <Link
                 to="/login"
@@ -40,11 +41,12 @@ export default function Home() {
             {/* Left Column - Text */}
             <div className="space-y-8">
               <h2 className="text-5xl font-bold leading-tight">
-                We make selling online{' '}
+                We make selling online{" "}
                 <span className="text-primary-600">simple and seamless.</span>
               </h2>
               <p className="text-xl text-gray-600">
-                Manage your Amazon, Shopify, TikTok Shop, and other channels from one powerful dashboard.
+                Manage your Amazon, Shopify, TikTok Shop, and other channels
+                from one powerful dashboard.
               </p>
               <div>
                 <button

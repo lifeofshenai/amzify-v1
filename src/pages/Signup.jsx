@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Loader2 } from 'lucide-react';
-import toast from 'react-hot-toast';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Loader2 } from "lucide-react";
+import toast from "react-hot-toast";
+import Logo from "../assets/amzify-logo.png";
 
 export default function Signup() {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,11 +14,11 @@ export default function Signup() {
 
     try {
       // Mock signup
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      navigate('/onboarding');
-      toast.success('Account created successfully!');
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      navigate("/onboarding");
+      toast.success("Account created successfully!");
     } catch (error) {
-      toast.error('Failed to create account');
+      toast.error("Failed to create account");
     } finally {
       setIsLoading(false);
     }
@@ -27,14 +28,17 @@ export default function Signup() {
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <Link to="/" className="flex justify-center">
-          <h1 className="text-4xl font-bold font-logo text-primary-500">AMZIFY</h1>
+          <img className="auth-logo" src={Logo} />
         </Link>
         <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
           Create your account
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          Already have an account?{' '}
-          <Link to="/login" className="font-medium text-primary-600 hover:text-primary-500">
+          Already have an account?{" "}
+          <Link
+            to="/login"
+            className="font-medium text-primary-600 hover:text-primary-500"
+          >
             Sign in
           </Link>
         </p>
@@ -44,7 +48,10 @@ export default function Signup() {
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Email address
               </label>
               <div className="mt-1">
@@ -60,7 +67,10 @@ export default function Signup() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Password
               </label>
               <div className="mt-1">
@@ -76,7 +86,10 @@ export default function Signup() {
             </div>
 
             <div>
-              <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="confirm-password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Confirm password
               </label>
               <div className="mt-1">
@@ -99,12 +112,15 @@ export default function Signup() {
                 required
                 className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
               />
-              <label htmlFor="terms" className="ml-2 block text-sm text-gray-900">
-                I agree to the{' '}
+              <label
+                htmlFor="terms"
+                className="ml-2 block text-sm text-gray-900"
+              >
+                I agree to the{" "}
                 <a href="#" className="text-primary-600 hover:text-primary-500">
                   Terms of Service
-                </a>{' '}
-                and{' '}
+                </a>{" "}
+                and{" "}
                 <a href="#" className="text-primary-600 hover:text-primary-500">
                   Privacy Policy
                 </a>
@@ -123,7 +139,7 @@ export default function Signup() {
                     Creating account...
                   </>
                 ) : (
-                  'Create account'
+                  "Create account"
                 )}
               </button>
             </div>

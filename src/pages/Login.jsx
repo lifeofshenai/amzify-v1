@@ -5,6 +5,7 @@ import { Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
 import { validateEmail } from "../utils/helpers";
 import { Signin } from "../redux/slices/auth";
+import Logo from "../assets/amzify-logo.png";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -47,9 +48,7 @@ export default function Login() {
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <Link to="/" className="flex justify-center">
-          <h1 className="text-4xl font-bold font-logo text-primary-500">
-            AMZIFY
-          </h1>
+          <img className="auth-logo" src={Logo} />
         </Link>
         <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
           Welcome back
