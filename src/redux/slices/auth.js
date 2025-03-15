@@ -57,8 +57,7 @@ const Signin = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post("/auth/signin", data);
-      const response = await res.data;
-      return response;
+      return res.data;
     } catch (error) {
       if (error.response && error.response.data) {
         return rejectWithValue({
@@ -78,8 +77,7 @@ const ForgetPassword = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post("/auth/forget-password", data);
-      const response = await res.data;
-      return response;
+      return res.data;
     } catch (error) {
       if (error.response && error.response.data) {
         return rejectWithValue({
@@ -99,8 +97,7 @@ const Signup = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post("/auth/signup", data);
-      const response = await res.data;
-      return response;
+      return res.data;
     } catch (error) {
       if (error.response && error.response.data) {
         return rejectWithValue({
@@ -120,8 +117,7 @@ const SendVerificationEmail = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post("/auth/send-verification-email", data);
-      const response = await res.data;
-      return response;
+      return res.data;
     } catch (error) {
       if (error.response && error.response.data) {
         return rejectWithValue({
@@ -141,8 +137,7 @@ const VerifyCode = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post("/auth/verify-code", data);
-      const response = await res.data;
-      return response;
+      return res.data;
     } catch (error) {
       if (error.response && error.response.data) {
         return rejectWithValue({
@@ -166,8 +161,7 @@ const ResetPassword = createAsyncThunk(
           Authorization: `bearer ${data.token}`,
         },
       });
-      const response = await res.data;
-      return response;
+      return res.data;
     } catch (error) {
       if (error.response && error.response.data) {
         return rejectWithValue({

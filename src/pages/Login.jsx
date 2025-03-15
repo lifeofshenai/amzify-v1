@@ -37,6 +37,8 @@ export default function Login() {
       dispatch(Signin({ email, password })).then(({ payload }) => {
         if (payload.success) {
           toast.success("Welcome back!");
+        } else {
+          toast.error(payload.error?.message);
         }
       });
     else {
