@@ -1,5 +1,6 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import authReducer from "./slices/auth";
+import adminReducer from "./slices/admin";
 import {
   persistReducer,
   persistStore,
@@ -22,7 +23,7 @@ const persistedReducer = persistReducer(persistConfig, authReducer);
 
 const rootReducer = combineReducers({
   auth: persistedReducer,
-  // other: otherReducer,
+  admin: adminReducer,
 });
 const store = configureStore({
   devTools: process.env.NODE_ENV !== "production",

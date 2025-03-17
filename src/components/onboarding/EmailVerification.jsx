@@ -76,7 +76,7 @@ export default function EmailVerification({ email }) {
         code: verificationCode,
         password,
         company: {
-          companyName,
+          name: companyName,
           companyNumber,
           countryOfIncorporation,
           currency,

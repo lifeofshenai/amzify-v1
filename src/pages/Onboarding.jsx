@@ -9,8 +9,6 @@ export default function Onboarding() {
   const { currentStep, steps, vendorDetails } = useSelector(
     (state) => state.auth
   );
-  console.log("🚀 ~ Onboarding ~ currentStep:", currentStep)
-  console.log("🚀 ~ Onboarding ~ steps:", steps)
 
   const renderStep = () => {
     switch (currentStep) {

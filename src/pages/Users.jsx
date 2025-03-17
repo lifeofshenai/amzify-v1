@@ -1,10 +1,17 @@
 import React, { useEffect } from "react";
 import { Search } from "lucide-react";
+import { GetUsers } from "../redux/slices/admin";
 import UserList from "../components/users/UserList";
-import { useProductStore } from "../stores/productStore";
 
-export default function Products() {
-  const { products, addProduct } = useProductStore();
+import { useDispatch, useSelector } from "react-redux";
+
+export default function Users() {
+  const dispatch = useDispatch();
+  const { isLoading, users } = useSelector((state) => state.admin);
+
+  useEffect(() => {
+    dispatch(GetUsers());
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -23,7 +30,7 @@ export default function Products() {
         </div>
       </div>
 
-      <UserList products={products} />
+      <UserList users={users} />
     </div>
   );
 }
