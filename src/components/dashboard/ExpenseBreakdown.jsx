@@ -10,11 +10,11 @@ export default function ExpenseBreakdown({ totalCogs }) {
 
   // All expenses combined
   const allExpenses = [
-    { label: 'Cost of Goods Sold', value: totalCogs },
-    { label: 'Shipping', value: expenses?.shipping },
-    { label: 'Ad Spend', value: expenses?.adSpend },
-    { label: 'Management Compensation', value: expenses?.managementCompensation },
-    { label: 'Software', value: expenses?.software }
+    { label: 'Cost of Goods Sold', value: 0 },
+    { label: 'Shipping', value: 0 },
+    { label: 'Ad Spend', value: 0 },
+    { label: 'Management Compensation', value: 0 },
+    { label: 'Software', value: 0 }
   ].sort((a, b) => a.label.localeCompare(b.label));
 
   const totalExpenses = allExpenses.reduce((sum, item) => sum + item.value, 0);
@@ -53,13 +53,15 @@ export default function ExpenseBreakdown({ totalCogs }) {
         <div className="flex items-center justify-between text-sm text-gray-600">
           <span>Gross Profit</span>
           <span className="font-medium text-green-600">
-            ${grossProfit.toLocaleString()} ({grossMargin}%)
+            {/* ${grossProfit.toLocaleString()} ({grossMargin}%) */}
+            $0 (0%)
           </span>
         </div>
         <div className="flex items-center justify-between text-sm text-gray-600">
           <span>Net Profit</span>
           <span className="font-medium text-primary-600">
-            ${netProfit.toLocaleString()} ({netMargin}%)
+            {/* ${netProfit.toLocaleString()} ({netMargin}%) */}
+            $0 (0%)
           </span>
         </div>
       </div>

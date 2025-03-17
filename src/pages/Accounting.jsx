@@ -10,22 +10,22 @@ export default function Accounting() {
 
   const financialMetrics = {
     revenue: {
-      total: totalRevenue,
-      growth: 15.3,
-      breakdown: revenue
+      total: 0,
+      growth: 0,
+      breakdown: 0
     },
     expenses: {
-      total: totalExpenses + totalCost,
-      breakdown: expenses
+      total: 0,
+      breakdown: 0
     },
     profit: {
-      gross: grossProfit,
-      net: netProfit,
-      margin: ((grossProfit / totalRevenue) * 100).toFixed(1)
+      gross: 0,
+      net: 0,
+      margin: ((0 / 0) * 100).toFixed(1)
     },
     taxes: {
-      estimated: totalRevenue * 0.3,
-      paid: totalRevenue * 0.25
+      estimated: 0,
+      paid: 0
     }
   };
 
@@ -46,26 +46,26 @@ export default function Accounting() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <MetricCard
           title="Total Income"
-          value={totalRevenue}
+          value={0}
           trend={15.3}
           icon={<DollarSign className="w-6 h-6" />}
         />
         <MetricCard
           title="Total Expenses"
-          value={totalExpenses + totalCost}
-          trend={-4.2}
+          value={0}
+          trend={0}
           icon={<FileText className="w-6 h-6" />}
         />
         <MetricCard
           title="Net Profit"
-          value={netProfit}
-          subtitle={`${financialMetrics.profit.margin}% margin`}
+          value={0}
+          subtitle={`${0}% margin`}
           icon={<TrendingUp className="w-6 h-6" />}
         />
         <MetricCard
           title="Estimated Tax"
-          value={financialMetrics.taxes.estimated}
-          subtitle={`$${financialMetrics.taxes.paid.toLocaleString()} paid`}
+          value={0}
+          subtitle={`$0 paid`}
           icon={<PieChart className="w-6 h-6" />}
         />
       </div>

@@ -14,23 +14,26 @@ export default function Dashboard() {
   const stats = [
     {
       label: 'Total Income',
-      value: `$${totalRevenue.toLocaleString()}`,
+      // value: `$${totalRevenue.toLocaleString()}`,
+      value: `$0`,
       icon: TrendingUp,
-      trend: '+15.3%',
+      trend: '0',
       link: '/accounting'
     },
     {
       label: 'Total Expenses',
-      value: `$${(totalExpenses + totalCost).toLocaleString()}`,
+      // value: `$${(totalExpenses + totalCost).toLocaleString()}`,
+      value: `$0`,
       icon: DollarSign,
-      trend: '-4.2%',
+      trend: '0',
       link: '/accounting'
     },
     {
       label: 'Total Payout',
-      value: `$${(totalRevenue - totalExpenses - totalCost).toLocaleString()}`,
+      // value: `$${(totalRevenue - totalExpenses - totalCost).toLocaleString()}`,
+      value: `$0`,
       icon: ArrowDown,
-      trend: '+12.8%',
+      trend: '0',
       link: '/payout'
     }
   ];

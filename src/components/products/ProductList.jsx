@@ -45,7 +45,7 @@ export default function ProductList({ products }) {
               <th className="px-6 py-4 font-medium">Stock</th>
               <th className="px-6 py-4 font-medium">Price</th>
               <th className="px-6 py-4 font-medium">Cost</th>
-              <th className="px-6 py-4 font-medium">Sales Channels</th>
+              <th className="px-6 py-4 font-medium text-center">Sales Channels</th>
               <th className="px-6 py-4 font-medium">Status</th>
               <th className="px-6 py-4 text-right font-medium">Actions</th>
             </tr>

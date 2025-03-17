@@ -1,20 +1,25 @@
-import React from 'react';
-import { TrendingUp } from 'lucide-react';
+import React from "react";
+import { TrendingUp } from "lucide-react";
 
 export default function RevenueBreakdown({ revenue }) {
-  const totalRevenue = Object.values(revenue).reduce((sum, val) => sum + val, 0);
+  const totalRevenue = Object.values(revenue).reduce(
+    (sum, val) => sum + val,
+    0
+  );
   const getPercentage = (value) => ((value / totalRevenue) * 100).toFixed(1);
 
   const revenueItems = [
-    { label: 'Amazon', value: revenue.amazon },
-    { label: 'E-commerce', value: revenue.ecommerce },
-    { label: 'TikTok', value: revenue.tiktok }
+    { label: "Amazon", value: 0 },
+    { label: "E-commerce", value: 0 },
+    { label: "TikTok", value: 0 },
   ];
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-primary-200 transition-colors">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-gray-900">Income Breakdown</h3>
+        <h3 className="text-lg font-semibold text-gray-900">
+          Income Breakdown
+        </h3>
         <div className="p-2 bg-gradient-to-br from-primary-100 to-primary-200 rounded-lg">
           <TrendingUp className="w-5 h-5 text-primary-600" />
         </div>
@@ -26,16 +31,20 @@ export default function RevenueBreakdown({ revenue }) {
             key={item.label}
             label={item.label}
             value={item.value}
-            percentage={parseFloat(getPercentage(item.value))}
+            // percentage={parseFloat(getPercentage(item.value))}
+            percentage={0}
           />
         ))}
       </div>
 
       <div className="mt-6 pt-4 border-t border-gray-200">
         <div className="flex justify-between items-center">
-          <span className="text-sm font-medium text-gray-900">Total Income</span>
           <span className="text-sm font-medium text-gray-900">
-            ${totalRevenue.toLocaleString()}
+            Total Income
+          </span>
+          <span className="text-sm font-medium text-gray-900">
+            {/* ${totalRevenue.toLocaleString()} */}
+            $0
           </span>
         </div>
       </div>
@@ -49,7 +58,9 @@ function RevenueItem({ label, value, percentage }) {
       <div className="flex justify-between items-center">
         <span className="text-sm text-gray-600">{label}</span>
         <div className="text-right">
-          <span className="text-sm font-medium text-gray-900">${value.toLocaleString()}</span>
+          <span className="text-sm font-medium text-gray-900">
+            ${value.toLocaleString()}
+          </span>
           <span className="text-xs text-gray-500 ml-2">({percentage}%)</span>
         </div>
       </div>
