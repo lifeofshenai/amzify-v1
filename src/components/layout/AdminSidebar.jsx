@@ -17,7 +17,7 @@ import { useDispatch } from "react-redux";
 import { Logout } from "../../redux/slices/auth";
 import Logo from "../../assets/amzify-logo.png";
 
-const menuItems = [{ label: "Users", icon: "Package2", path: "/users" }];
+const menuItems = [{ label: "Vendors", icon: "Package2", path: "/vendors" }];
 
 const iconComponents = {
   LayoutDashboard,

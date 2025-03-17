@@ -6,7 +6,7 @@ export default function Header() {
     <header className="h-16 fixed right-0 top-0 left-64 bg-white border-b border-gray-200 z-10">
       <div className="h-full px-6 flex items-center justify-between">
         <div className="flex items-center">
-          <h2 className="text-xl font-semibold text-gray-800">Welcome back, Vendor</h2>
+          <h2 className="text-xl font-semibold text-gray-800">Welcome back, Amzify</h2>
         </div>
         
         <div className="flex items-center space-x-4">

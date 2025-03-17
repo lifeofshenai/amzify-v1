@@ -9,7 +9,7 @@ const Auth = () => {
   useEffect(() => {
     if (token) {
       if (user?.userType === "ADMIN") {
-        navigate("/users");
+        navigate("/vendors");
       } else {
         navigate("/dashboard");
       }
