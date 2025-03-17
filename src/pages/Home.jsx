@@ -1,12 +1,16 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/amzify-logo.png";
+import { useDispatch } from "react-redux";
+import { ClearState } from "../redux/slices/auth";
 
 export default function Home() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleGetStarted = () => {
     navigate("/onboarding");
+    dispatch(ClearState());
   };
 
   return (

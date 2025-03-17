@@ -69,10 +69,19 @@ export default function DomainEmailSetup() {
       dispatch(
         SetState({
           field: "currentStep",
-          value: 3,
+          value: 2,
         })
       );
     });
+  };
+
+  const onNextStepClick = (step) => {
+    dispatch(
+      SetState({
+        field: "currentStep",
+        value: step,
+      })
+    );
   };
 
   return (
@@ -138,6 +147,16 @@ export default function DomainEmailSetup() {
           </button>
         )}
       </div>
+      {step == "domain" && (
+        <div className="pt-6 flex space-x-4">
+          <button
+            onClick={() => onNextStepClick(0)}
+            className="flex-1 px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50"
+          >
+            Back
+          </button>
+        </div>
+      )}
     </div>
   );
 }

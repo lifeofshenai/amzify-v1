@@ -9,16 +9,18 @@ export default function Onboarding() {
   const { currentStep, steps, vendorDetails } = useSelector(
     (state) => state.auth
   );
+  console.log("🚀 ~ Onboarding ~ currentStep:", currentStep)
+  console.log("🚀 ~ Onboarding ~ steps:", steps)
 
   const renderStep = () => {
     switch (currentStep) {
       case 0:
         return <CompanyDetailsForm />;
+      // case 1:
+      //   return <PaymentSetup />;
       case 1:
-        return <PaymentSetup />;
-      case 2:
         return <DomainEmailSetup />;
-      case 3:
+      case 2:
         return <EmailVerification email={vendorDetails?.email || ""} />;
       default:
         return null;

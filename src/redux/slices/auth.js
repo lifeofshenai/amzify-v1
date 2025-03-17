@@ -28,13 +28,13 @@ const initialState = {
       completed: false,
       required: true,
     },
-    {
-      id: "payment-setup",
-      title: "Payment Setup",
-      description: "Set up your payment method",
-      completed: false,
-      required: true,
-    },
+    // {
+    //   id: "payment-setup",
+    //   title: "Payment Setup",
+    //   description: "Set up your payment method",
+    //   completed: false,
+    //   required: true,
+    // },
     {
       id: "domain-email",
       title: "Domain & Email",
@@ -184,6 +184,7 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
     },
+    ClearState: (state, action) => initialState,
     SetState(state, { payload: { field, value } }) {
       state[field] = value;
     },
@@ -254,7 +255,7 @@ const authSlice = createSlice({
   },
 });
 
-const { Logout, SetState } = authSlice.actions;
+const { Logout, SetState, ClearState } = authSlice.actions;
 
 export {
   SetState,
@@ -265,6 +266,7 @@ export {
   VerifyCode,
   ForgetPassword,
   ResetPassword,
+  ClearState,
 };
 
 export default authSlice.reducer;
