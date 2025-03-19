@@ -20,7 +20,7 @@ import Payroll from "./pages/Payroll";
 import Payment from "./pages/Payment";
 import Advertising from "./pages/Advertising";
 import Onboarding from "./pages/Onboarding";
-
+import Support from "./pages/Support";
 const App = () => {
   const { user, token } = useSelector((state) => state.auth);
   return (
@@ -47,7 +47,7 @@ const App = () => {
           <Route path="sales-channels" element={<SalesChannels />} />
           <Route path="advertising" element={<Advertising />} />
           <Route path="content" element={<Content />} />
-          <Route path="support" element={<div>Support Page</div>} />
+          <Route path="support" element={<Support />} />
           <Route path="accounting" element={<Accounting />} />
           <Route path="payroll" element={<Payroll />} />
           <Route path="payout" element={<Payment />} />

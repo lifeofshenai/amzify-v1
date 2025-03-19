@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { Plus, Search, Filter, Wand2, RefreshCw } from 'lucide-react';
-import ProductForm from '../components/products/ProductForm';
-import ProductList from '../components/products/ProductList';
-import { useProductStore } from '../stores/productStore';
-import { useProductSync } from '../hooks/useProductSync';
-import toast from 'react-hot-toast';
-
+import React, { useState } from "react";
+import { Plus, Search, Filter, Wand2, RefreshCw } from "lucide-react";
+import ProductForm from "../components/products/ProductForm";
+import ProductList from "../components/products/ProductList";
+import { useProductStore } from "../stores/productStore";
+import { useProductSync } from "../hooks/useProductSync";
+import toast from "react-hot-toast";
+import ComingSoon from "./component";
 export default function Products() {
   const [showAddProduct, setShowAddProduct] = useState(false);
   const { products, addProduct } = useProductStore();
@@ -14,9 +14,9 @@ export default function Products() {
   const handleImportProducts = async () => {
     try {
       const importedProducts = await importProducts();
-      toast.success('Products imported successfully');
+      toast.success("Products imported successfully");
     } catch (error) {
-      toast.error('Failed to import products');
+      toast.error("Failed to import products");
     }
   };
 
@@ -26,27 +26,27 @@ export default function Products() {
         ...data,
         fbaEnabled: false,
         reorderPoint: 10,
-        leadTime: 7
+        leadTime: 7,
       });
-      toast.success('Product added successfully');
+      toast.success("Product added successfully");
       setShowAddProduct(false);
     } catch (error) {
-      toast.error('Failed to add product');
+      toast.error("Failed to add product");
     }
   };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Products</h1>
-        <div className="flex space-x-2">
+        <h1 className="text-2xl font-bold text-gray-400">Products</h1>
+        {/* <div className="flex space-x-2">
           <button
             onClick={handleImportProducts}
             disabled={isImporting}
             className="px-4 py-2 text-sm font-medium text-primary-600 border border-primary-600 rounded-lg hover:bg-primary-50 flex items-center"
           >
-            <RefreshCw className={`w-4 h-4 mr-2 ${isImporting ? 'animate-spin' : ''}`} />
-            {isImporting ? 'Importing...' : 'Import Products'}
+            <RefreshCw className={`w-4 h-4 mr-2 ${isImporting ? "animate-spin" : ""}`} />
+            {isImporting ? "Importing..." : "Import Products"}
           </button>
           <button
             onClick={() => setShowAddProduct(true)}
@@ -55,25 +55,20 @@ export default function Products() {
             <Plus className="w-4 h-4 mr-2" />
             Add New Product
           </button>
-        </div>
+        </div> */}
       </div>
+      <ComingSoon />
 
-      {showAddProduct ? (
+      {/* {showAddProduct ? (
         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
           <div className="p-6 border-b border-gray-200">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-semibold text-gray-900">Add New Product</h2>
-              <button
-                onClick={() => setShowAddProduct(false)}
-                className="text-gray-500 hover:text-gray-700"
-              >
+              <button onClick={() => setShowAddProduct(false)} className="text-gray-500 hover:text-gray-700">
                 ×
               </button>
             </div>
-            <ProductForm
-              onSubmit={handleAddProduct}
-              onCancel={() => setShowAddProduct(false)}
-            />
+            <ProductForm onSubmit={handleAddProduct} onCancel={() => setShowAddProduct(false)} />
           </div>
         </div>
       ) : (
@@ -98,7 +93,7 @@ export default function Products() {
 
           <ProductList products={products} />
         </>
-      )}
+      )} */}
     </div>
   );
 }

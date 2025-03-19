@@ -1,11 +1,11 @@
-import React from 'react';
-import { TrendingUp, ArrowDown, DollarSign } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import StatCard from '../components/dashboard/StatCard';
-import ExpenseBreakdown from '../components/dashboard/ExpenseBreakdown';
-import RevenueBreakdown from '../components/dashboard/RevenueBreakdown';
-import SalesGraph from '../components/dashboard/SalesGraph';
-import { useMetricsStore } from '../stores/metricsStore';
+import React from "react";
+import { TrendingUp, ArrowDown, DollarSign } from "lucide-react";
+import { Link } from "react-router-dom";
+import StatCard from "../components/dashboard/StatCard";
+import ExpenseBreakdown from "../components/dashboard/ExpenseBreakdown";
+import RevenueBreakdown from "../components/dashboard/RevenueBreakdown";
+import SalesGraph from "../components/dashboard/SalesGraph";
+import { useMetricsStore } from "../stores/metricsStore";
 
 export default function Dashboard() {
   const { revenue, expenses, totalCogs, getTotal } = useMetricsStore();
@@ -13,35 +13,35 @@ export default function Dashboard() {
 
   const stats = [
     {
-      label: 'Total Income',
+      label: "Total Income",
       // value: `$${totalRevenue.toLocaleString()}`,
       value: `$0`,
       icon: TrendingUp,
-      trend: '0',
-      link: '/accounting'
+      trend: "0",
+      link: "/accounting",
     },
     {
-      label: 'Total Expenses',
+      label: "Total Expenses",
       // value: `$${(totalExpenses + totalCost).toLocaleString()}`,
       value: `$0`,
       icon: DollarSign,
-      trend: '0',
-      link: '/accounting'
+      trend: "0",
+      link: "/accounting",
     },
     {
-      label: 'Total Payout',
+      label: "Total Payout",
       // value: `$${(totalRevenue - totalExpenses - totalCost).toLocaleString()}`,
       value: `$0`,
       icon: ArrowDown,
-      trend: '0',
-      link: '/payout'
-    }
+      trend: "0",
+      link: "/payout",
+    },
   ];
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard Overview</h1>
+        <h1 className="text-2xl font-bold text-gray-400">Dashboard Overview</h1>
         <div className="flex space-x-2">
           <button className="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
             Export Report
@@ -51,11 +51,7 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {stats.map((stat) => (
-          <Link 
-            key={stat.label} 
-            to={stat.link || '#'}
-            className={stat.link ? 'block' : 'pointer-events-none'}
-          >
+          <Link key={stat.label} to={stat.link || "#"} className={stat.link ? "block" : "pointer-events-none"}>
             <StatCard {...stat} />
           </Link>
         ))}
