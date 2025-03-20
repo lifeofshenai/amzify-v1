@@ -36,11 +36,12 @@ export default function Layout() {
           Our platform is currently unavailable on mobile. Please switch to a desktop for the best experience.
         </p>
         <button
-          onClick={() => navigate("/logout")}
-          className="px-6 py-3 bg-red-500 text-white rounded-lg shadow-lg text-lg"
-        >
-          Logout
-        </button>
+  onClick={() => navigate("/logout")}
+  className="px-4 py-2 text-sm font-medium text-white bg-[#FF006B] rounded-lg hover:bg-[#d9005b]"
+>
+  Logout
+</button>
+
       </div>
     </div>
   );

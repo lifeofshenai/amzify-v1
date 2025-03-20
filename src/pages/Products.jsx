@@ -37,7 +37,7 @@ export default function Products() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-8">
         <h1 className="text-2xl font-bold text-gray-400">Products</h1>
         {/* <div className="flex space-x-2">
           <button

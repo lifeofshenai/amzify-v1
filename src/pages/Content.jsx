@@ -1,5 +1,6 @@
 import React from 'react';
 import { Video, Image, FileText, Wand2 } from 'lucide-react';
+import ComingSoon from "./component";
 
 export default function Content() {
   return (
@@ -7,8 +8,9 @@ export default function Content() {
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-2xl font-bold text-gray-400">Content Creation</h1>
       </div>
+<ComingSoon/>
 
-      <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-200">
+      {/* <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-200">
         <div className="text-center space-y-6">
           <div className="flex justify-center space-x-6">
             <div className="p-4 bg-gray-50 rounded-full">
@@ -64,7 +66,7 @@ export default function Content() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
