@@ -11,9 +11,7 @@ export default function DomainEmailSetup() {
 
   const [step, setStep] = useState("domain");
 
-  const { domainStatus, vendorDetails, steps } = useSelector(
-    (state) => state.auth
-  );
+  const { domainStatus, vendorDetails, steps } = useSelector((state) => state.auth);
 
   const handleDomainSelect = async (domain, price) => {
     // setDomainStatus({
@@ -40,9 +38,7 @@ export default function DomainEmailSetup() {
   };
 
   const completeStep = (stepId) => {
-    const allSteps = steps.map((step) =>
-      step.id === stepId ? { ...step, completed: true } : step
-    );
+    const allSteps = steps.map((step) => (step.id === stepId ? { ...step, completed: true } : step));
     dispatch(
       SetState({
         field: "steps",
@@ -64,7 +60,7 @@ export default function DomainEmailSetup() {
         value: newVendorDetails,
       })
     );
-    dispatch(SendVerificationEmail({ email })).then(() => {
+    dispatch(SendVerificationEmail({ email, firstName: vendorDetails?.firstName  })).then(() => {
       toast.success("Verification Code sent to email!");
       dispatch(
         SetState({
@@ -99,36 +95,21 @@ export default function DomainEmailSetup() {
 
       {/* Progress Steps */}
       <div className="flex items-center space-x-4">
-        <div
-          className={`flex items-center space-x-2 ${
-            step === "domain" ? "text-primary-600" : "text-gray-400"
-          }`}
-        >
+        <div className={`flex items-center space-x-2 ${step === "domain" ? "text-primary-600" : "text-gray-400"}`}>
           <Globe className="w-5 h-5" />
           <span className="text-sm font-medium">Domain Setup</span>
         </div>
         <div className="flex-1 h-0.5 bg-gray-200">
-          <div
-            className={`h-full bg-primary-600 transition-all duration-300 ${
-              step === "email" ? "w-full" : "w-0"
-            }`}
-          />
+          <div className={`h-full bg-primary-600 transition-all duration-300 ${step === "email" ? "w-full" : "w-0"}`} />
         </div>
-        <div
-          className={`flex items-center space-x-2 ${
-            step === "email" ? "text-primary-600" : "text-gray-400"
-          }`}
-        >
+        <div className={`flex items-center space-x-2 ${step === "email" ? "text-primary-600" : "text-gray-400"}`}>
           <Mail className="w-5 h-5" />
           <span className="text-sm font-medium">Email Setup</span>
         </div>
       </div>
 
       {step === "domain" ? (
-        <DomainSearch
-          onDomainSelect={handleDomainSelect}
-          onExistingDomain={handleExistingDomain}
-        />
+        <DomainSearch onDomainSelect={handleDomainSelect} onExistingDomain={handleExistingDomain} />
       ) : (
         <EmailSetup
           domain={domainStatus?.domain || ""}
